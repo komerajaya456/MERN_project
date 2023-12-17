@@ -1,0 +1,56 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>paragraph</p>
+    <button onclick="kom()">click</button>
+    <script>
+        function kom(){
+            fetch('http://localhost:3000/register',{
+                method:'POST',
+                headers:{'Content-Type':'text/plain'},
+                body:"html function fetch",
+            })
+            .then((response)=>{return response.text()})
+            .then((value)=>{console.log(value)})
+
+        }
+
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>paragraph</p>
+    <button onclick="kom()">click</button>
+    <script>
+        function kom(){
+            fetch('http://localhost:8080/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:JSON.stringify({name:"fetchjson"}),
+            })
+            // .then((response) => { return response.text(); })
+            // .then((value) => { 
+            //     console.log(value);
+            //     document.getElementById('response').innerText = value;
+            // });
+        }
+    </script>
+    <div>
+        <h2>Server Response:</h2>
+        <p id="response"></p>
+    </div>
+</body>
+</html>
