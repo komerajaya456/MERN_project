@@ -7,8 +7,8 @@ const url = `mongodb+srv://komerajaya7259:eihlGz2XfQOM3FoJ@secondcluster.vzmnsfg
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 async function getdata(){
-    const mynew=await collection.insertMany({gender:7})
-    console.log(mynew) 
+    const alldata=await collection.find({})
+    return alldata;
 }
 
 
@@ -30,9 +30,9 @@ async function adddata(data){
 async function checkdata(data){
     if (typeof(data)=="object"){
         const chk=await collection.findOne({name:data.name})
-        console.log(chk)
+        console.log(chk,"komera")
         console.log("camedkkkkkkkkkkkk")
-        return chk
+        return chk;
         
     }
     else{
@@ -42,7 +42,9 @@ async function checkdata(data){
 }
 
 async function deletedata(data){
+
     if (typeof(data)=="object"){
+        console.log(data.name)
         const deleted=await collection.deleteMany({name:data.name})
     
       console.log("here")

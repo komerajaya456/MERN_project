@@ -12,28 +12,39 @@ function Mydata(){
     const [name, setName] = useState("");
     const [age,setAge]=useState()
     const [gender,setGender]=useState('') 
-    const [selectdata,setselectdata]=useState('')
+    const [selectdata,setselectdata]=useState('[]')
+    const [returnjson,setreturnjson]=useState('')
     
-    const [bodydata,setbodydata]=useState(localStorage.getItem("usercollection"))
+  
+    const getalldata=async ()=>{
+        console.log("thisssssssssssssssssss")
+        const response=await fetch('http://localhost:8080/alldata',{
+            method:"POST",
+            headers:{'Content-Type':'application/json'}
+        })
+        const data=await response.json()
+        setselectdata(JSON.stringify(data))
+        console.log(selectdata)
+
+    }
+
+    getalldata();
     
     function btnhandle(){
+       
         fetch('http://localhost:8080/register',{
             method:'POST',
             headers:{ 'Content-Type': 'application/json' },
             body:JSON.stringify({name:name,age:age,gender:gender}),
         })
         .then((response)=>{return response.json()})
-        .then((data)=>{
+        .then((data)=>{        
             console.log(data);
 
-            //this for store only data seperate in localStorage if data={error:"Already exist"}
-            if ((JSON.stringify(data)).length != 30){
-                setselectdata(JSON.stringify(data))
-                localStorage.setItem("updatedata",);
-            }
-
+            setreturnjson(JSON.stringify(data))
             localStorage.setItem("usercollection",JSON.stringify(data));
-            setbodydata(localStorage.getItem("usercollection"))})
+            })
+            getalldata();
 
     }
     
@@ -57,14 +68,14 @@ function Mydata(){
         </form>
          <br/><br/>
      
-        <button onClick={btnhandle}>submit</button>
+        <button onClick={btnhandle}>Add</button>
         <br/><br/>
      
         <h3>delete by name</h3>
          <select type="text" value={name} onChange={(e)=>{setName(e.target.value)}}>
         <option value="">select name</option>
-         {(JSON.parse((localStorage.getItem("updatedata")))).map((item) => (
-          <option key={item.id} value={item.name}>
+         {(JSON.parse(selectdata)).map((item) => (
+          <option value={item.name}>
             {item.name}
           </option>
         ))}
@@ -76,9 +87,10 @@ function Mydata(){
         
         {/* <p>{typeof(Object.entries(JSON.stringify(bodydata)))}</p> */}
         {/* <p>{(Object.keys(bodydata).map((key) => bodydata[key.name]))}</p> */}
-        <p>{(bodydata)}</p>
+       
+        <p>{selectdata}</p>
 
-        {/* <p>{(localStorage.getItem("updatedata"))}</p> */}
+        <p>{returnjson}</p>
         </>
     )
 
