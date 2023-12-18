@@ -11,30 +11,22 @@ async function getdata(){
     return alldata;
 }
 
-
 async function adddata(data){
     const mynew=await collection.insertMany({name:data.name,age:data.age,gender:data.gender})
-    console.log(mynew)
-    console.log(dbname)
     //deleting all __v=0
     await collection.updateMany({__v:0},{$unset:{__v:0}})
-    console.log("this2222")
+
     //getting all collection data and send to react
     const alldata=await collection.find({})
 
     return (alldata) 
 }
 
-
-
 async function checkdata(data){
     if (typeof(data)=="object"){
         const chk=await collection.findOne({name:data.name})
-        console.log(chk,"komera")
-        console.log("camedkkkkkkkkkkkk")
         return chk;
-        
-    }
+        }
     else{
         const chk=await collection.findOne({name:data})
         console.log(chk)
@@ -42,18 +34,16 @@ async function checkdata(data){
 }
 
 async function deletedata(data){
-
+    //i need data is deleting
+    const deldata=await collection.find({$or:[{name:data.name},{age:data.age}]})
     if (typeof(data)=="object"){
-        console.log(data.name)
-        const deleted=await collection.deleteMany({name:data.name})
+        const deleted=await collection.deleteMany({$or:[{name:data.name},{age:data.age}]})
     
-      console.log("here")
-      console.log(deleted)
-        
+        return deldata;  
     } 
     else{
         const deleted=await collection.deleteMany({name:data})
-        
+        return deldata;
     }
 }
 

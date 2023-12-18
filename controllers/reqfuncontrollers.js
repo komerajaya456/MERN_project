@@ -10,24 +10,24 @@ const alldata =async (req,res)=>{
 
 const register=async (req,res)=>{
     //deleleting data by name
-    if (req.body.gender != "F" & req.body.gender !="M"){
-        console.log("deleted console")
-        console.log(req.body)
-        await deletedata(req.body)
+    if ( req.body.gender != "F" & req.body.gender !="M" ){
+     const deldata=await deletedata(req.body)
+     
+        //return {deleted:[hvn,abu]
+        res.json({deleted:deldata.map((val)=>{return (val.name)})})
+        return true;    //this return is for not going next if
         }
-
-
-    //check whether data is present or not
+        
+ //check whether data is present or not
     if (await checkdata(req.body) != null){
-        console.log("thisddddddddd chk there")
-        res.json({error:"Already registered"})
+        res.json({error:"Already registered"})}
 
-    }
-    else if((await checkdata(req.body))== null){
+
+
+    else if((await checkdata(req.body))== null & req.body.name != ""){
     //array of collection all data send to react fetch 
     await adddata(req.body)
-    console.log("kumarikkkkkkkkkkkkkkkkkk added")
-    res.json({added:"added success"})
+    res.json({added:req.body.name})
 
 
     } 

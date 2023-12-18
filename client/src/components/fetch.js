@@ -1,13 +1,7 @@
-import React,{ useState } from 'react';
+import React,{ useState,useEffect } from 'react';
 
 function Mydata(){
-    //for localStorage
-   // localStorage.clear();  
-    if(localStorage.length===0){ 
-        console.log("camed")
-        localStorage.setItem("usercollection","hjk")
-    }
-
+  
 
     const [name, setName] = useState("");
     const [age,setAge]=useState()
@@ -16,7 +10,8 @@ function Mydata(){
     const [returnjson,setreturnjson]=useState('')
     
   
-    const getalldata=async ()=>{
+    useEffect(()=>{
+        const getalldata=async ()=>{
         console.log("thisssssssssssssssssss")
         const response=await fetch('http://localhost:8080/alldata',{
             method:"POST",
@@ -28,7 +23,7 @@ function Mydata(){
 
     }
 
-    getalldata();
+    getalldata();},[returnjson])
     
     function btnhandle(){
        
@@ -42,9 +37,10 @@ function Mydata(){
             console.log(data);
 
             setreturnjson(JSON.stringify(data))
-            localStorage.setItem("usercollection",JSON.stringify(data));
+            setName('');setAge(0);setGender('') //this for input box value change if dont delete take much values
+           
             })
-            getalldata();
+           
 
     }
     
@@ -83,13 +79,8 @@ function Mydata(){
          <button onClick={btnhandle}>delete</button>
         
         <br/><br/>
-        
-        
-        {/* <p>{typeof(Object.entries(JSON.stringify(bodydata)))}</p> */}
-        {/* <p>{(Object.keys(bodydata).map((key) => bodydata[key.name]))}</p> */}
        
         <p>{selectdata}</p>
-
         <p>{returnjson}</p>
         </>
     )
