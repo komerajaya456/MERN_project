@@ -2,7 +2,7 @@ const [getdata,adddata,checkdata,deletedata]=require('../config/mongoconnect')
 
 
 
-const home=(req,res)=>{res.send("home page")}
+const home=(req,res)=>{res.send("home PAGED")}
 
 const alldata =async (req,res)=>{
     res.json(await getdata())
